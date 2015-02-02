@@ -45,7 +45,7 @@ describe("About Applying What We Have Learnt", function() {
       var productsICanEat = [];
       
       var productsICanEat=products.filter(nutFree);
-      console.log(productsICanEat);
+      //console.log(productsICanEat);
       /* solve using filter() & all() / any() */
 
       expect(productsICanEat.length).toBe(1);
@@ -89,22 +89,23 @@ describe("About Applying What We Have Learnt", function() {
             ingredientCount[products[i].ingredients[j]] = (ingredientCount[products[i].ingredients[j]] || 0) + 1;
         }
     }
-    console.log(ingredientCount);
+    //console.log(ingredientCount);
     expect(ingredientCount['mushrooms']).toBe(2);
   });
 
   it("should count the ingredient occurrence (functional)", function () {
     //var ingredientCount = { "{ingredient name}": 0 };
-    console.log(products);
+    //console.log(products);
+    //initialize ingredientCount:
     var ingredientCount={ "{ingredient name}": 0 };
-    var ingredientCount = _([{ "{ingredient name}": 0 }]).chain()
+    var ingredientCount = _(ingredientCount).chain()
                           .concat(_.map(products,function(e){return e.ingredients;}))
                           .flatten()
                           .reduce(function(memo,e){
                             ingredientCount[e]=(ingredientCount[e]||0)+1;
                             return ingredientCount;})
                           .value();
-    console.log(ingredientCount);
+    //console.log(ingredientCount);
     //console.log('array formed in reduce:',xxx);
 
     /* chain() together map(), flatten() and reduce() */
@@ -114,18 +115,76 @@ describe("About Applying What We Have Learnt", function() {
 
   /*********************************************************************************/
   /* UNCOMMENT FOR EXTRA CREDIT */
-  /*
+  //do this functionally rather than iteratively!
   it("should find the largest prime factor of a composite number", function () {
-  
+    var primeFactor=function(n){
+      var i=Math.floor(n/2);
+      var factor=1;
+      while (i>=2){
+        //console.log('i',i);
+        if (n%i==0){
+          var prime=true;
+          for (j=2;j<i;j++){
+            //console.log('i',i,'j',j);
+            if (i%j===0){
+              prime=false;
+              break;}
+          }
+          if (prime===true){
+            //console.log('n',n,'prime factor is',i);
+            return i;
+          }
+        }
+        i--;
+      }
+      
+    };
+    expect(primeFactor(25)).toBe(5);
+    expect(primeFactor(119)).toBe(17);
+
   });
 
   it("should find the largest palindrome made from the product of two 3 digit numbers", function () {
+    var palindrome=function(){
+      var i=999*999;
+      while (i>100*100){
+        if (i.toString()===i.toString().split('').reverse().join('')){
+          //console.log(i);
+          for (var j=999;j>100;j--){
+            if (i%j===0 && i/j-1000<0){
+              //console.log(i,j,i/j);
+              return i;
+            }
+          }
+          }
+        i--;
+      }
+    }
     
+    //console.log(palindrome());
+      expect(palindrome()).toBe(906609);
   });
 
   it("should find the smallest number divisible by each of the numbers 1 to 20", function () {
-      
-    
+    function smallestNumber(){
+      var num=1;
+      for (var i=20;i>=2;i--){
+        if (num%i!=0){
+          var j=1;
+          while (j<i){
+            //console.log(num,j,num*j,i,num*j%i)
+            if (num*j%i==0)
+              break;
+            j++;
+          }
+          num*=j;
+          //console.log('next num',num);
+        }
+          }
+      return num;
+    }
+
+    console.log(smallestNumber());
   });
 
   it("should find the difference between the sum of the squares and the square of the sums", function () {
@@ -135,5 +194,4 @@ describe("About Applying What We Have Learnt", function() {
   it("should find the 10001st prime", function () {
 
   });
-  */
-});
+  });
